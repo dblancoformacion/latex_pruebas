@@ -1,0 +1,91 @@
+\documentclass[11pt,oneside,a4paper]{article} %draft
+\usepackage[latin1]{inputenc}
+%\usepackage{a4wide}
+%\usepackage{beton}
+%\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage{verbatim}
+\usepackage{latexsym}
+\usepackage[spanish]{babel}
+\usepackage{upgreek}
+\usepackage{pdfpages}
+\usepackage[a4paper,margin=2cm]{geometry}
+%\pagestyle{empty}
+
+\begin{document}
+\parindent 0mm
+\parskip 4mm
+
+\topmargin 10mm
+\textheight 228mm
+
+\AddToShipoutPicture{\includegraphics[width=\paperwidth,height=\paperheight,
+keepaspectratio]{fondo}}
+
+\newcommand{\hs}{\hspace{1mm}}
+\newcommand{\G}{ \textrm{\c{G}}}
+\newcommand{\ljoin}{ \ltimes }
+\newcommand{\rjoin}{ \rtimes }
+\newcommand{\fjoin}{ ]\mkern-9mu\times\mkern-9mu [ }
+\newcommand{\tbl}[1]{$#1$}
+\newcommand{\cmp}[1]{$#1$}
+
+%\tableofcontents
+%\newpage
+
+%-----------------------------------------------------------
+\begin{comment}
+%\section{Administración de bases de datos}
+\section{Consultas: implementar álgebra relacional en SQL}
+
+Nombre : \hrulefill\hrulefill \hs\hs DNI: \hrulefill \\
+
+Implementa en SQL el álgebra relacional de estas consultas e intenta verbalizar qué pretende obtener cada una.
+\begin{enumerate} \input{alg.sty} \end{enumerate}\newpage
+
+\end{comment}
+%-----------------------------------------------------------
+
+
+%-----------------------------------------------------------
+%\begin{comment}
+%\section{Administración de bases de datos}
+\section{Consultas: álgebra y SQL}
+
+Nombre : \hrulefill\hrulefill \hs\hs DNI: \hrulefill \\
+
+%A partir de la tabla de provincias, autonomías, población y superficie que se ha utilizado en las clases, 
+Plantea %únicamente
+el álgebra 
+y el SQL
+que resolvería las siguientes consultas. 
+Se puede hacer uso del Access, dbForge o el phpMyAdmin para comprobar los resultados.
+
+\begin{enumerate} \input{exm.sty} \end{enumerate}\newpage
+
+%\end{comment}
+%-----------------------------------------------------------
+
+
+%-----------------------------------------------------------
+%\section{Administración de bases de datos}
+\section{Soluciones.}
+\begin{enumerate} \input{sol.sty} \end{enumerate}\newpage
+%-----------------------------------------------------------
+	
+	
+%\includepdf[pages=-,offset=0mm 0]{fondo}
+
+%\ClearShipoutPicture
+%\includepdf[pages=-,offset=14mm 0]{Ord_201_18783_25032015_fdo}
+	
+	
+%$ \vee \left(  \sqsupset\times\sqsubset \uprho \leftarrow \uptheta \bowtie \land \textrm{casa \c{G}} \prod \updelta \times \cup \cap \bigcup \bigcap \bigvee \bigwedge \bigodot \bigotimes \bigoplus   \right) \Join \ljoin \rjoin \fjoin $
+
+
+\end{document}

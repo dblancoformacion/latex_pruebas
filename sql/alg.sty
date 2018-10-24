@@ -1,0 +1,258 @@
+\item 
+
+DGPRODUCTIONS GARDEN	4000,00	6165,00
+Gardening Associates	10926,00	10926,00
+Gerudo Valley	81849,00	81849,00
+Tendo Garden	23794,00	23794,00
+Beragua [...] 
+
+\vspace{5cm}
+
+\item 
+
+DGPRODUCTIONS GARDEN
+
+\vspace{5cm}
+
+\item 
+
+DGPRODUCTIONS GARDEN
+Gardening Associates
+Gerudo Valley
+Tendo Garden
+Camunas Jardines S.L.
+Flores Marivi
+Jardineria Sara
+El Jardin Viviente S.L
+
+\vspace{5cm}
+
+\item 
+
+986,00
+
+\vspace{5cm}
+
+\item 
+
+73510,00
+
+\vspace{5cm}
+
+\item 
+
+Plantas vistosas para la decoración del jardín
+
+\vspace{5cm}
+
+\item 
+
+Plantas vistosas para la decoración del jardín
+
+\vspace{5cm}
+
+\item 
+
+LON-UK
+PAR-FR
+TOK-JP
+
+\vspace{5cm}
+
+\item 
+
+FR-17
+
+\vspace{5cm}
+
+\item 
+
+FR-11
+
+\vspace{5cm}
+
+\item 
+
+FR-11
+
+\vspace{5cm}
+
+\item 
+
+NULL
+
+\vspace{5cm}
+
+\item $c1\gets\prod_{CodigoPedido}(
+\sigma_{Estado=Rechazado}(pedidos)
+)$
+
+$c3\gets c1\bigotimes_{CodigoPedido}detallepedido
+\bigotimes_{CodigoProducto}productos$
+
+$c4\gets_{Gama}\G_{Gama,s\gets suma(Cantidad)}(c3)$
+
+$m\gets\G_{max(s)}(c4)$
+
+$\prod_{Gama}(
+\sigma_{s=m}(c4)
+)$
+
+Frutales
+
+\vspace{5cm}
+
+\item 
+
+BCN-ES	1	9
+BOS-USA	0	2
+MAD-ES	3	3
+PAR-FR	2	0
+SFC-USA	1	3
+SYD-AU	2	5
+TAL-ES	0	5
+
+\vspace{5cm}
+
+\item $c1\gets_{Gama}\G_{Gama,s\gets suma(Cantidad)}(
+detallepedidos\bigotimes_{CodidoProducto}productos)$
+
+$m\gets\G_{max(s)}(c1)$
+
+$\prod_{Gama}(\sigma_{s=m}(c1))$
+
+$c3\gets\prod_{CodigoProducto}(
+c2\bigotimes_{Gama}productos
+)$
+
+$\G_{suma(Cantidad*PrecioUnidad)}(
+c3\bigotimes_{CodigoPedido}detallepedido
+)$
+
+140194,00
+
+\vspace{5cm}
+
+\item 
+
+Gerudo Valley
+
+\vspace{5cm}
+
+\item 
+
+FR-17	Rosal bajo 1Âª -En maceta-inicio brotación
+
+\vspace{5cm}
+
+\item 
+
+OR-247	Trachycarpus Fortunei
+
+\vspace{5cm}
+
+\item 
+
+New York
+
+\vspace{5cm}
+
+\item $c1\gets\prod_{CodigoPedido}(
+\sigma_{Estado=Rechazado}(pedidos)
+)$
+
+$c2\gets_{CodigoProducto}\G_{CodigoProducto,s\gets suma(Cantidad)}(
+c1\bigotimes_{CodigoPedido}detallepedido
+)$
+
+$m\gets\G_{max(s)}(c2)$
+
+$c3\gets\prod_{CodigoProducto}(
+\sigma_{s=m}(c2)
+)$
+
+$c4\gets\prod_{Gama}(
+c3\bigotimes_{CodigoProducto}productos
+)$
+
+$\prod_{DescripcionTexto}(
+c4\bigotimes_{Gama}gamaproductos
+)$
+
+Árboles pequeños de producción frutal
+
+\vspace{5cm}
+
+\item 
+
+Gerudo Valley
+
+\vspace{5cm}
+
+\item 
+
+Árboles pequeños de producción frutal
+
+\vspace{5cm}
+
+\item 
+
+Gerudo Valley
+
+\vspace{5cm}
+
+\item 
+
+OR-247	Trachycarpus Fortunei
+
+\vspace{5cm}
+
+\item 
+
+38	El Jardin Viviente S.L	Justin	Smith	2 8005-7161	2 8005-7162	176 Cumberland Street The rocks	(null)	Sydney	Nueva Gales del Sur	Australia	2003	31	800 [...] 
+
+\vspace{5cm}
+
+\item 
+
+Boston
+
+\vspace{5cm}
+
+\item $c1\gets\prod_{CodigoProducto}(
+\sigma_{Gama=Frutales}(productos)
+)$
+
+$c2\gets\prod_{CodigoProducto,CodigoPedido}(detalleproducto)$
+
+$c3\gets\prod_{CodigoPedido,CodigoCliente}(pedidos)$
+
+$c4\gets\prod_{CodigoCliente,
+CodigoEmpleado\gets CodigoEmpleadoRepVentas
+}(clientes)$
+
+$c5\gets\prod_{CodigoEmpleado,CodigoOficina}(empleados)$
+
+$c6\gets\prod_{CodigoOficina,Ciudad}(oficinas)$
+
+$c7\gets 
+c1\bigotimes_{CodigoProducto}c2
+\bigotimes_{CodigoPedido}c3
+\bigotimes_{CodigoCliente}c4
+\bigotimes_{CodigoEmpleado}c5
+\bigotimes_{CodigoOficina}c6
+$
+
+$c8\gets
+_{Ciudad,CodigoOficina}\G_{Ciudad,CodigoOficina,suma(Cantidad)}(c7)$
+
+$m\gets\G_{max(s)}(c8)$
+
+$\prod_{Ciudad}(
+\sigma_{s=m}(c8)
+)$
+
+Boston
+
+\vspace{5cm}
+

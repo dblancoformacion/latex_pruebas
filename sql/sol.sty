@@ -1,0 +1,803 @@
+\item (4.10.02b) Sacar el listado con los nombres de los clientes, el total pedido y el total pagado por cada uno de ellos.
+
+DGPRODUCTIONS GARDEN	4000,00	6165,00
+Gardening Associates	10926,00	10926,00
+Gerudo Valley	81849,00	81849,00
+Tendo Garden	23794,00	23794,00
+Beragua [...] 
+
+
+
+\begin{verbatim} 
+SELECT NombreCliente,Pagos,Compras FROM (
+    SELECT * FROM (
+        SELECT CodigoCliente,SUM(Cantidad) Pagos
+          FROM pagos GROUP BY CodigoCliente  
+      ) c1 JOIN (
+        SELECT CodigoCliente,SUM(Cantidad*PrecioUnidad) Compras
+          FROM detallepedidos JOIN pedidos USING(CodigoPedido)
+          GROUP BY CodigoCliente  
+      ) c2 USING(CodigoCliente)  
+  ) c3 JOIN clientes USING(CodigoCliente);
+\end{verbatim}
+
+\item (4.10.20) Obtener los nombre de clientes que no estén al día con sus pagos. (Sin excluir los pedidos rechazados)
+
+DGPRODUCTIONS GARDEN
+
+
+
+\begin{verbatim} 
+SELECT NombreCliente FROM (
+    SELECT CodigoCliente FROM (
+        SELECT CodigoCliente,SUM(Cantidad*PrecioUnidad) pide
+          FROM detallepedidos JOIN pedidos USING(CodigoPedido)
+          GROUP BY CodigoCliente  
+      ) c1 JOIN (
+        SELECT CodigoCliente,SUM(Cantidad) paga FROM pagos GROUP BY CodigoCliente  
+      ) c2 USING(CodigoCliente)
+      WHERE pide>paga  
+  ) c3 JOIN clientes USING(CodigoCliente);
+\end{verbatim}
+
+\item (4.08.09) ¿Qué cliente(s) ha rechazado más pedidos?
+
+DGPRODUCTIONS GARDEN
+Gardening Associates
+Gerudo Valley
+Tendo Garden
+Camunas Jardines S.L.
+Flores Marivi
+Jardineria Sara
+El Jardin Viviente S.L
+
+
+
+\begin{verbatim} 
+SELECT NombreCliente FROM (
+    SELECT CodigoCliente
+      FROM pedidos WHERE Estado='Rechazado'
+      GROUP BY CodigoCliente
+      HAVING COUNT(*)=(
+        SELECT MAX(n) FROM (
+            SELECT CodigoCliente,COUNT(*) n
+              FROM pedidos WHERE Estado='Rechazado'
+              GROUP BY CodigoCliente  
+          ) c1  
+      )  
+  ) c2 JOIN clientes USING(CodigoCliente);
+\end{verbatim}
+
+\item (4.08.05) Obtener la cantidad facturada con el producto que más unidades haya vendido
+
+986,00
+
+
+
+\begin{verbatim} 
+SELECT SUM(Cantidad*PrecioUnidad) total 
+  FROM detallepedidos JOIN (
+    SELECT CodigoProducto FROM detallepedidos
+      GROUP BY CodigoProducto
+      HAVING SUM(Cantidad)=(
+        SELECT MAX(cantidad) FROM (
+            SELECT CodigoProducto,SUM(Cantidad) cantidad
+              FROM detallepedidos GROUP BY CodigoProducto  
+          ) c1  
+      )  
+  ) c2 USING(CodigoProducto);
+\end{verbatim}
+
+\item (4.08.06) Obtener la cantidad facturada con el producto que más dinero haya hecho ingresar
+
+73510,00
+
+
+
+\begin{verbatim} 
+SELECT SUM(Cantidad*PrecioUnidad) FROM (
+    SELECT CodigoProducto FROM detallepedidos 
+      GROUP BY CodigoProducto
+      HAVING SUM(Cantidad*PrecioUnidad)=(
+        SELECT MAX(s) FROM (
+            SELECT CodigoProducto,
+              SUM(Cantidad*PrecioUnidad) s 
+              FROM detallepedidos
+              GROUP BY CodigoProducto  
+          ) c1
+      )  
+  ) c2 JOIN detallepedidos USING(CodigoProducto);
+\end{verbatim}
+
+\item (4.10.29) ¿Cuál es la descripción de la gama del producto que más factura? (Sin tener en cuenta devoluciones)
+
+Plantas vistosas para la decoración del jardín
+
+
+
+\begin{verbatim} 
+SELECT DescripcionTexto FROM (
+    SELECT CodigoProducto
+      FROM detallepedidos GROUP BY CodigoProducto
+      HAVING SUM(Cantidad*PrecioUnidad)=(
+        SELECT MAX(s) FROM (
+          SELECT CodigoProducto,SUM(Cantidad*PrecioUnidad) s
+            FROM detallepedidos GROUP BY CodigoProducto  
+          ) c1  
+      )  
+  ) c2 JOIN productos USING(CodigoProducto)
+  JOIN gamasproductos USING(Gama);
+\end{verbatim}
+
+\item (4.10.30) ¿Cuál es la descripción de la gama de productos que más factura? (Sin tener en cuenta devoluciones)
+
+Plantas vistosas para la decoración del jardín
+
+
+
+\begin{verbatim} 
+SELECT DescripcionTexto FROM (
+    SELECT Gama
+      FROM detallepedidos JOIN productos USING(CodigoProducto)
+      GROUP BY Gama HAVING SUM(Cantidad*PrecioUnidad)=(
+        SELECT MAX(s) FROM (
+            SELECT Gama,SUM(Cantidad*PrecioUnidad) s
+              FROM detallepedidos 
+              JOIN productos USING(CodigoProducto)
+              GROUP BY Gama  
+          ) c1  
+      )  
+  ) c3 JOIN gamasproductos USING(Gama);
+\end{verbatim}
+
+\item (4.10.33) Código de las oficinas que no venden frutales
+
+LON-UK
+PAR-FR
+TOK-JP
+
+
+
+\begin{verbatim} 
+SELECT o.CodigoOficina FROM oficinas o LEFT JOIN (
+    SELECT DISTINCT CodigoOficina FROM (
+        SELECT CodigoProducto
+          FROM productos WHERE Gama='Frutales'  
+      ) c1 JOIN (
+        SELECT CodigoProducto,CodigoPedido
+          FROM detallepedidos
+      ) c2 USING(CodigoProducto) JOIN (
+        SELECT CodigoPedido,CodigoCliente FROM pedidos
+      ) c3 USING(CodigoPedido) JOIN (
+        SELECT CodigoCliente,
+          CodigoEmpleadoRepVentas CodigoEmpleado
+          FROM clientes
+      ) c4 USING(CodigoCliente) JOIN (
+        SELECT CodigoEmpleado,CodigoOficina FROM empleados
+      ) c5 USING(CodigoEmpleado)  
+  ) c2 USING(CodigoOficina)
+  WHERE c2.CodigoOficina IS NULL;
+\end{verbatim}
+
+\item (4.10.35) Código del frutal más vendido
+
+FR-17
+
+
+
+\begin{verbatim} 
+SELECT CodigoProducto FROM (
+    SELECT CodigoProducto
+      FROM productos WHERE Gama='Frutales'  
+  ) c1 JOIN detallepedidos USING(CodigoProducto)
+  GROUP BY CodigoProducto
+  HAVING SUM(Cantidad)=(
+    SELECT MAX(s) FROM (
+        SELECT CodigoProducto,SUM(Cantidad) s FROM (
+            SELECT CodigoProducto
+              FROM productos WHERE Gama='Frutales'  
+          ) c1 JOIN detallepedidos USING(CodigoProducto)
+          GROUP BY CodigoProducto  
+      ) c2  
+  );
+\end{verbatim}
+
+\item (4.10.37) Código del frutal con el que más se ha facturado
+
+FR-11
+
+
+
+\begin{verbatim} 
+SELECT CodigoProducto FROM (
+    SELECT CodigoProducto
+      FROM productos WHERE Gama='Frutales'  
+  ) c1 JOIN detallepedidos USING(CodigoProducto)
+  GROUP BY CodigoProducto
+  HAVING SUM(Cantidad*PrecioUnidad)=(
+    SELECT MAX(total) FROM (
+        SELECT CodigoProducto,
+          SUM(Cantidad*PrecioUnidad) total FROM (
+            SELECT CodigoProducto
+              FROM productos WHERE Gama='Frutales'  
+          ) c1 JOIN detallepedidos USING(CodigoProducto)
+          GROUP BY CodigoProducto
+      ) c2  
+  );
+\end{verbatim}
+
+\item (4.10.38) Frutal con el que más se ha ganado (mayores beneficios)
+
+FR-11
+
+
+
+\begin{verbatim} 
+SELECT CodigoProducto
+  FROM (
+    SELECT CodigoProducto,
+      PrecioVenta-PrecioProveedor margen
+      FROM productos WHERE Gama='Frutales'  
+  ) c1 JOIN detallepedidos USING(CodigoProducto)
+  GROUP BY CodigoProducto
+  HAVING SUM(Cantidad*margen)=(
+    SELECT MAX(beneficio) FROM (
+        SELECT CodigoProducto,
+          SUM(Cantidad*margen) beneficio
+          FROM (
+            SELECT CodigoProducto,
+              PrecioVenta-PrecioProveedor margen
+              FROM productos WHERE Gama='Frutales'  
+          ) c1 JOIN detallepedidos USING(CodigoProducto)
+          GROUP BY CodigoProducto  
+      ) c2  
+  );
+\end{verbatim}
+
+\item (4.08.03b) Obtener los nombres de los clientes que hayan excedido su límite de crédito
+
+NULL
+
+
+
+\begin{verbatim} 
+SELECT * FROM (
+    SELECT CodigoCliente,NombreCliente,total,pago,LimiteCredito limite FROM (
+        SELECT CodigoCliente,SUM(total) total FROM (
+            SELECT CodigoPedido,SUM(Cantidad*PrecioUnidad) total
+              FROM detallepedidos GROUP BY CodigoPedido 
+          ) c1 JOIN pedidos USING(CodigoPedido)
+          GROUP BY CodigoCliente  
+      ) c2 JOIN clientes USING(CodigoCliente)
+      JOIN (
+        SELECT CodigoCliente,SUM(Cantidad) pago
+          FROM pagos GROUP BY CodigoCliente 
+      ) c3 USING(CodigoCliente)
+  ) c3 WHERE total-pago>limite;
+\end{verbatim}
+
+\item (4.10.39) Gama de productos más rechazada
+
+Frutales
+
+$c1\gets\prod_{CodigoPedido}(
+\sigma_{Estado=Rechazado}(pedidos)
+)$
+
+$c3\gets c1\bigotimes_{CodigoPedido}detallepedido
+\bigotimes_{CodigoProducto}productos$
+
+$c4\gets_{Gama}\G_{Gama,s\gets suma(Cantidad)}(c3)$
+
+$m\gets\G_{max(s)}(c4)$
+
+$\prod_{Gama}(
+\sigma_{s=m}(c4)
+)$
+
+\begin{verbatim} 
+SELECT Gama FROM (
+    SELECT CodigoPedido FROM pedidos WHERE Estado='Rechazado'  
+  ) c1 JOIN detallepedidos USING(CodigoPedido)
+  JOIN productos USING(CodigoProducto)
+  GROUP BY Gama
+  HAVING SUM(Cantidad)=(
+    SELECT MAX(s) FROM (
+        SELECT Gama,SUM(Cantidad) s FROM (
+            SELECT CodigoPedido FROM pedidos
+              WHERE Estado='Rechazado'  
+          ) c1 JOIN detallepedidos USING(CodigoPedido)
+          JOIN productos USING(CodigoProducto)
+          GROUP BY Gama  
+      ) c4  
+  );
+\end{verbatim}
+
+\item (4.10.43) ¿Cuántos clientes locales y foráneos tiene cada oficina? Indica únicamente el código de la oficina
+
+BCN-ES	1	9
+BOS-USA	0	2
+MAD-ES	3	3
+PAR-FR	2	0
+SFC-USA	1	3
+SYD-AU	2	5
+TAL-ES	0	5
+
+
+
+\begin{verbatim} 
+SELECT CodigoOficina, 
+  IFNULL(n_local,0) n_local,
+  n_total-IFNULL(n_local,0) n_foraneos
+  FROM (
+    SELECT CodigoOficina,COUNT(*) n_total FROM oficinas
+      JOIN empleados USING(CodigoOficina)
+      JOIN clientes
+      ON empleados.CodigoEmpleado=clientes.CodigoEmpleadoRepVentas
+      GROUP BY CodigoOficina  
+  ) c2 LEFT JOIN (
+    SELECT CodigoOficina,COUNT(*) n_local FROM oficinas
+      JOIN empleados USING(CodigoOficina)
+      JOIN clientes
+      ON empleados.CodigoEmpleado=clientes.CodigoEmpleadoRepVentas
+      WHERE oficinas.Ciudad=clientes.Ciudad
+      GROUP BY CodigoOficina  
+  ) c1 USING(CodigoOficina);
+\end{verbatim}
+
+\item (4.10.31) Facturación de la gama de productos más vendida
+
+140194,00
+
+$c1\gets_{Gama}\G_{Gama,s\gets suma(Cantidad)}(
+detallepedidos\bigotimes_{CodidoProducto}productos)$
+
+$m\gets\G_{max(s)}(c1)$
+
+$\prod_{Gama}(\sigma_{s=m}(c1))$
+
+$c3\gets\prod_{CodigoProducto}(
+c2\bigotimes_{Gama}productos
+)$
+
+$\G_{suma(Cantidad*PrecioUnidad)}(
+c3\bigotimes_{CodigoPedido}detallepedido
+)$
+
+\begin{verbatim} 
+SELECT SUM(Cantidad*PrecioUnidad) FROM (
+    SELECT CodigoProducto FROM (
+        SELECT Gama
+          FROM detallepedidos JOIN  productos
+          USING(CodigoProducto) GROUP BY Gama
+          HAVING SUM(Cantidad)=(
+            SELECT MAX(s) FROM (
+                SELECT Gama,SUM(Cantidad) s
+                  FROM detallepedidos JOIN  productos
+                  USING(CodigoProducto) GROUP BY Gama  
+              ) c1
+          )  
+      ) c2 JOIN productos USING(Gama)  
+  ) c3 JOIN detallepedidos USING(CodigoProducto);
+\end{verbatim}
+
+\item (4.08.08) ¿Qué cliente ha rechazado pedidos por mayor importe?
+
+Gerudo Valley
+
+
+
+\begin{verbatim} 
+SELECT NombreCliente FROM (
+    SELECT CodigoCliente FROM (
+        SELECT CodigoPedido,CodigoCliente FROM pedidos
+          WHERE Estado='Rechazado'  
+      ) c1 JOIN detallepedidos USING(CodigoPedido)
+      GROUP BY CodigoCliente
+      HAVING SUM(Cantidad*PrecioUnidad)=(
+        SELECT MAX(s) FROM (
+            SELECT CodigoCliente,SUM(Cantidad*PrecioUnidad) s
+              FROM (
+                SELECT CodigoPedido,CodigoCliente
+                  FROM pedidos WHERE Estado='Rechazado'  
+              ) c1 JOIN detallepedidos USING(CodigoPedido)
+              GROUP BY CodigoCliente  
+          ) c2  
+      )  
+  ) c3 JOIN clientes USING(CodigoCliente);
+\end{verbatim}
+
+\item (4.10.22) ¿Cuál ha sido el producto más rechazado? Muestra código y nombre
+
+FR-17	Rosal bajo 1Âª -En maceta-inicio brotación
+
+
+
+\begin{verbatim} 
+SELECT CodigoProducto,Nombre FROM (
+    SELECT CodigoProducto FROM (
+        SELECT CodigoPedido FROM pedidos WHERE Estado='Rechazado'  
+      ) c1 JOIN detallepedidos USING(CodigoPedido)
+      GROUP BY CodigoProducto
+      HAVING SUM(Cantidad)=(
+        SELECT MAX(s) FROM (
+            SELECT CodigoProducto,SUM(Cantidad) s FROM (
+                SELECT CodigoPedido FROM pedidos
+                  WHERE Estado='Rechazado'  
+              ) c1 JOIN detallepedidos USING(CodigoPedido)
+              GROUP BY CodigoProducto  
+          ) c2  
+      )  
+  ) c3 JOIN productos USING(CodigoProducto);
+\end{verbatim}
+
+\item (4.10.23) ¿Cuál ha sido el producto que más dinero nos ha hecho devolver?
+
+OR-247	Trachycarpus Fortunei
+
+
+
+\begin{verbatim} 
+SELECT CodigoProducto,Nombre FROM (
+    SELECT CodigoProducto FROM (
+        SELECT CodigoPedido FROM pedidos
+          WHERE Estado='Rechazado'  
+      ) c1 JOIN detallepedidos USING(CodigoPedido)
+      GROUP BY CodigoProducto
+      HAVING SUM(Cantidad*PrecioUnidad)=(
+        SELECT MAX(s) FROM (
+            SELECT CodigoProducto,
+              SUM(Cantidad*PrecioUnidad) s FROM (
+                SELECT CodigoPedido FROM pedidos
+                  WHERE Estado='Rechazado'  
+              ) c1 JOIN detallepedidos USING(CodigoPedido)
+              GROUP BY CodigoProducto  
+          ) c2  
+      )  
+  ) c3 JOIN productos USING(CodigoProducto);
+\end{verbatim}
+
+\item (4.10.42) ¿Qué ciudad consume más frutales? Entendiendo la ciudad del cliente
+
+New York
+
+
+
+\begin{verbatim} 
+SELECT Ciudad FROM (
+    SELECT CodigoProducto
+      FROM productos WHERE Gama='Frutales'  
+  ) c1 JOIN detallepedidos USING(CodigoProducto)
+  JOIN pedidos USING(CodigoPedido)
+  JOIN clientes USING(CodigoCliente)
+  GROUP BY Ciudad
+  HAVING SUM(Cantidad)=(
+    SELECT MAX(s) FROM (
+        SELECT Ciudad,SUM(Cantidad) s FROM (
+            SELECT CodigoProducto
+              FROM productos WHERE Gama='Frutales'  
+          ) c1 JOIN detallepedidos USING(CodigoProducto)
+          JOIN pedidos USING(CodigoPedido)
+          JOIN clientes USING(CodigoCliente)
+          GROUP BY Ciudad  
+      ) c2  
+  );
+\end{verbatim}
+
+\item (4.10.28) ¿Cuál es la descripción de la gama del producto más rechazado?
+
+Árboles pequeños de producción frutal
+
+$c1\gets\prod_{CodigoPedido}(
+\sigma_{Estado=Rechazado}(pedidos)
+)$
+
+$c2\gets_{CodigoProducto}\G_{CodigoProducto,s\gets suma(Cantidad)}(
+c1\bigotimes_{CodigoPedido}detallepedido
+)$
+
+$m\gets\G_{max(s)}(c2)$
+
+$c3\gets\prod_{CodigoProducto}(
+\sigma_{s=m}(c2)
+)$
+
+$c4\gets\prod_{Gama}(
+c3\bigotimes_{CodigoProducto}productos
+)$
+
+$\prod_{DescripcionTexto}(
+c4\bigotimes_{Gama}gamaproductos
+)$
+
+\begin{verbatim} 
+SELECT DescripcionTexto FROM (
+    SELECT CodigoProducto FROM (
+        SELECT CodigoPedido FROM pedidos
+          WHERE Estado='Rechazado'  
+      ) c1 JOIN detallepedidos USING(CodigoPedido)
+      GROUP BY CodigoProducto
+      HAVING SUM(Cantidad)=(
+        SELECT MAX(s) FROM (
+            SELECT CodigoProducto,SUM(Cantidad) s FROM (
+                SELECT CodigoPedido FROM pedidos
+                  WHERE Estado='Rechazado'  
+              ) c1 JOIN detallepedidos USING(CodigoPedido)
+              GROUP BY CodigoProducto  
+          ) c2  
+      )  
+  ) c4 JOIN productos USING(CodigoProducto)
+  JOIN gamasproductos USING(Gama);
+\end{verbatim}
+
+\item (4.10.25) ¿Con qué cliente la empresa gana más dinero? (Sin excluir los pedidos rechazados)
+
+Gerudo Valley
+
+
+
+\begin{verbatim} 
+SELECT NombreCliente FROM (
+    SELECT CodigoCliente FROM (
+        SELECT CodigoProducto,
+          PrecioVenta-PrecioProveedor margen
+          FROM productos  
+      ) c1 JOIN detallepedidos USING(CodigoProducto)
+      JOIN pedidos USING(CodigoPedido)
+      GROUP BY CodigoCliente
+      HAVING SUM(Cantidad*margen)=(
+        SELECT MAX(s) m FROM (
+            SELECT CodigoCliente,
+              SUM(Cantidad*margen) s FROM (
+                SELECT CodigoProducto,
+                  PrecioVenta-PrecioProveedor margen
+                  FROM productos  
+              ) c1 JOIN detallepedidos USING(CodigoProducto)
+              JOIN pedidos USING(CodigoPedido)
+              GROUP BY CodigoCliente  
+          ) c2  
+      )  
+  ) c3 JOIN clientes USING(CodigoCliente);
+\end{verbatim}
+
+\item (4.10.27) ¿Cuál es la descripción de la gama de productos más rechazada?
+
+Árboles pequeños de producción frutal
+
+
+
+\begin{verbatim} 
+SELECT DescripcionTexto FROM (
+    SELECT Gama FROM (
+        SELECT CodigoPedido
+          FROM pedidos WHERE Estado='Rechazado'  
+      ) c1 JOIN detallepedidos USING(CodigoPedido)
+      JOIN productos USING(CodigoProducto)
+      GROUP BY Gama
+      HAVING SUM(Cantidad)=(
+        SELECT MAX(s) FROM (
+            SELECT Gama,SUM(Cantidad) s FROM (
+                SELECT CodigoPedido
+                  FROM pedidos WHERE Estado='Rechazado'  
+              ) c1 JOIN detallepedidos USING(CodigoPedido)
+              JOIN productos USING(CodigoProducto)
+              GROUP BY Gama  
+          ) c2  
+      )  
+  ) c4 JOIN gamasproductos USING(Gama);
+\end{verbatim}
+
+\item (4.10.34) Nombre del cliente que más frutales ha pedido
+
+Gerudo Valley
+
+
+
+\begin{verbatim} 
+SELECT NombreCliente FROM (
+    SELECT CodigoCliente FROM (
+        SELECT CodigoProducto FROM productos
+          WHERE Gama='Frutales'  
+      ) c1 JOIN detallepedidos USING(CodigoProducto)
+      JOIN pedidos USING(CodigoPedido)
+      GROUP BY CodigoCliente
+      HAVING SUM(Cantidad)=(
+        SELECT MAX(s) FROM (
+            SELECT CodigoCliente,SUM(Cantidad) s FROM (
+                SELECT CodigoProducto FROM productos
+                  WHERE Gama='Frutales'  
+              ) c1 JOIN detallepedidos 
+              USING(CodigoProducto)
+              JOIN pedidos USING(CodigoPedido)
+              GROUP BY CodigoCliente  
+          ) c2  
+      )  
+  ) c3 JOIN clientes USING(CodigoCliente);
+\end{verbatim}
+
+\item (4.10.24) ¿Con qué producto la empresa gana más dinero? (Sin excluir los pedidos rechazados) Mostrar código y nombre
+
+OR-247	Trachycarpus Fortunei
+
+
+
+\begin{verbatim} 
+SELECT CodigoProducto,Nombre FROM (
+    SELECT CodigoProducto FROM (
+        SELECT CodigoProducto,SUM(Cantidad) s
+          FROM detallepedidos
+          GROUP BY CodigoProducto  
+      ) c1 JOIN (
+        SELECT CodigoProducto,
+          PrecioVenta-PrecioProveedor margen
+          FROM productos  
+      ) c2 USING(CodigoProducto)
+      WHERE s*margen=(
+        SELECT MAX(beneficio) FROM (
+            SELECT CodigoProducto,s*margen beneficio FROM (
+                SELECT CodigoProducto,SUM(Cantidad) s
+                  FROM detallepedidos
+                  GROUP BY CodigoProducto  
+              ) c1 JOIN (
+                SELECT CodigoProducto,
+                  PrecioVenta-PrecioProveedor margen
+                  FROM productos  
+              ) c2 USING(CodigoProducto)  
+          ) c3  
+      )  
+  ) c4 JOIN productos USING(CodigoProducto);
+\end{verbatim}
+
+\item (4.10.19) Datos de la empresa que más ha tardado en pagar su último pedido (suponiendo que todos están al corriente de pagos)
+
+38	El Jardin Viviente S.L	Justin	Smith	2 8005-7161	2 8005-7162	176 Cumberland Street The rocks	(null)	Sydney	Nueva Gales del Sur	Australia	2003	31	800 [...] 
+
+
+
+\begin{verbatim} 
+SELECT * FROM (
+    SELECT CodigoCliente FROM (
+        SELECT CodigoCliente,MAX(FechaPago) paga 
+          FROM pagos GROUP BY CodigoCliente  
+      ) c1 JOIN (
+        SELECT CodigoCliente,MAX(FechaEntrega) compra 
+          FROM pedidos GROUP BY CodigoCliente
+      ) c2 USING(CodigoCliente)  
+      WHERE DATEDIFF(paga,compra)=(
+        SELECT MIN(retardo) FROM (
+            SELECT CodigoCliente,DATEDIFF(paga,compra) retardo 
+              FROM (
+                SELECT CodigoCliente,MAX(FechaPago) paga 
+                  FROM pagos GROUP BY CodigoCliente  
+              ) c1 JOIN (
+                SELECT CodigoCliente,MAX(FechaEntrega) compra 
+                  FROM pedidos GROUP BY CodigoCliente
+              ) c2 USING(CodigoCliente)  
+          ) c3  
+      )  
+  ) c5 JOIN clientes USING(CodigoCliente);
+\end{verbatim}
+
+\item (4.10.26) En qué ciudad está la oficina que más ha facturado
+
+Boston
+
+
+
+\begin{verbatim} 
+SELECT Ciudad
+  FROM (
+    SELECT CodigoOficina,Ciudad FROM oficinas
+  ) c1 JOIN (
+    SELECT CodigoOficina,CodigoEmpleado FROM empleados
+  ) c2 USING(CodigoOficina) JOIN (
+    SELECT CodigoCliente,CodigoEmpleadoRepVentas
+      FROM clientes  
+  ) c3 ON CodigoEmpleadoRepVentas=CodigoEmpleado JOIN (
+    SELECT CodigoPedido,CodigoCliente FROM pedidos  
+  ) c4 USING(CodigoCliente) JOIN (
+    SELECT CodigoPedido,Cantidad,PrecioUnidad
+      FROM detallepedidos
+  ) c5 USING(CodigoPedido)
+  GROUP BY Ciudad,CodigoOficina
+  HAVING SUM(Cantidad*PrecioUnidad)=(
+    SELECT MAX(s) FROM (
+        SELECT CodigoOficina,SUM(Cantidad*PrecioUnidad) s
+          FROM (
+            SELECT CodigoOficina,Ciudad FROM oficinas
+          ) c1 JOIN (
+            SELECT CodigoOficina,CodigoEmpleado FROM empleados
+          ) c2 USING(CodigoOficina) JOIN (
+            SELECT CodigoCliente,CodigoEmpleadoRepVentas
+              FROM clientes  
+          ) c3 ON CodigoEmpleadoRepVentas=CodigoEmpleado JOIN (
+            SELECT CodigoPedido,CodigoCliente FROM pedidos  
+          ) c4 USING(CodigoCliente) JOIN (
+            SELECT CodigoPedido,Cantidad,PrecioUnidad
+              FROM detallepedidos
+          ) c5 USING(CodigoPedido)
+          GROUP BY CodigoOficina  
+      ) c6  
+  );
+\end{verbatim}
+
+\item (4.10.32) Ciudad de la oficina que más frutales vende
+
+Boston
+
+$c1\gets\prod_{CodigoProducto}(
+\sigma_{Gama=Frutales}(productos)
+)$
+
+$c2\gets\prod_{CodigoProducto,CodigoPedido}(detalleproducto)$
+
+$c3\gets\prod_{CodigoPedido,CodigoCliente}(pedidos)$
+
+$c4\gets\prod_{CodigoCliente,
+CodigoEmpleado\gets CodigoEmpleadoRepVentas
+}(clientes)$
+
+$c5\gets\prod_{CodigoEmpleado,CodigoOficina}(empleados)$
+
+$c6\gets\prod_{CodigoOficina,Ciudad}(oficinas)$
+
+$c7\gets 
+c1\bigotimes_{CodigoProducto}c2
+\bigotimes_{CodigoPedido}c3
+\bigotimes_{CodigoCliente}c4
+\bigotimes_{CodigoEmpleado}c5
+\bigotimes_{CodigoOficina}c6
+$
+
+$c8\gets
+_{Ciudad,CodigoOficina}\G_{Ciudad,CodigoOficina,suma(Cantidad)}(c7)$
+
+$m\gets\G_{max(s)}(c8)$
+
+$\prod_{Ciudad}(
+\sigma_{s=m}(c8)
+)$
+
+\begin{verbatim} 
+SELECT Ciudad FROM (
+    SELECT CodigoProducto
+      FROM productos WHERE Gama='Frutales'  
+  ) c1 JOIN (
+    SELECT CodigoProducto,CodigoPedido,Cantidad
+      FROM detallepedidos
+  ) c2 USING(CodigoProducto) JOIN (
+    SELECT CodigoPedido,CodigoCliente FROM pedidos  
+  ) c3 USING(CodigoPedido) JOIN (
+    SELECT CodigoCliente,
+      CodigoEmpleadoRepVentas CodigoEmpleado
+      FROM clientes
+  ) c4 USING(CodigoCliente) JOIN (
+    SELECT CodigoEmpleado,CodigoOficina FROM empleados
+  ) c5 USING(CodigoEmpleado) JOIN (
+    SELECT CodigoOficina,Ciudad FROM oficinas
+  ) c6 USING(CodigoOficina)
+  GROUP BY Ciudad,CodigoOficina
+  HAVING SUM(Cantidad)=(
+    SELECT MAX(s) FROM (
+        SELECT CodigoOficina,SUM(Cantidad) s FROM (
+            SELECT CodigoProducto
+              FROM productos WHERE Gama='Frutales'  
+          ) c1 JOIN (
+            SELECT CodigoProducto,CodigoPedido,Cantidad
+              FROM detallepedidos
+          ) c2 USING(CodigoProducto) JOIN (
+            SELECT CodigoPedido,CodigoCliente FROM pedidos  
+          ) c3 USING(CodigoPedido) JOIN (
+            SELECT CodigoCliente,
+              CodigoEmpleadoRepVentas CodigoEmpleado
+              FROM clientes
+          ) c4 USING(CodigoCliente) JOIN (
+            SELECT CodigoEmpleado,CodigoOficina FROM empleados
+          ) c5 USING(CodigoEmpleado) JOIN (
+            SELECT CodigoOficina,Ciudad FROM oficinas
+          ) c6 USING(CodigoOficina)
+          GROUP BY CodigoOficina  
+      ) c2  
+  );
+\end{verbatim}
+
