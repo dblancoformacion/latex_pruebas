@@ -1,0 +1,135 @@
+This is pdfTeX, Version 3.14159-1.10a (MiKTeX 2.2) (preloaded format=latex 2000.11.28)  22 NOV 2018 11:34
+**ej1.tex
+(ej1.tex{pdftex.cfg}
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for english, spanish, nohyphenation, loa
+ded.
+(C:\Program Files\MiKTeX 2.2\tex\latex\base\article.cls
+Document Class: article 2001/04/21 v1.4e Standard LaTeX document class
+(C:\Program Files\MiKTeX 2.2\tex\latex\base\size10.clo
+File: size10.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(C:\Program Files\MiKTeX 2.2\tex\latex\base\inputenc.sty
+Package: inputenc 2001/07/10 v0.99a Input encoding file 
+
+(C:\Program Files\MiKTeX 2.2\tex\latex\base\latin1.def
+File: latin1.def 2001/07/10 v0.99a Input encoding file 
+))
+(C:\Program Files\MiKTeX 2.2\tex\generic\Babel\babel.sty
+Package: babel 2001/03/01 v3.7h The Babel package
+
+(C:\Program Files\MiKTeX 2.2\tex\generic\Babel\spanish.ldf
+Language: spanish.ldf 2001/01/30 v4.1c Spanish support from the babel system
+
+(C:\Program Files\MiKTeX 2.2\tex\generic\Babel\babel.def
+File: babel.def 2001/03/01 v3.7h Babel common definitions
+\babel@savecnt=\count87
+\U@D=\dimen103
+)
+\es@quottoks=\toks14
+\es@quotdepth=\count88
+Package babel Info: Making . an active character on input line 464.
+Package babel Info: Making " an active character on input line 495.
+Package babel Info: Making < an active character on input line 581.
+Package babel Info: Making > an active character on input line 582.
+))
+(C:\Program Files\MiKTeX 2.2\tex\latex\graphics\graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Program Files\MiKTeX 2.2\tex\latex\graphics\keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(C:\Program Files\MiKTeX 2.2\tex\latex\graphics\graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Program Files\MiKTeX 2.2\tex\latex\graphics\trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(C:\Program Files\MiKTeX 2.2\tex\latex\00miktex\graphics.cfg)
+Package graphics Info: Driver file: pdftex.def on input line 80.
+
+(C:\Program Files\MiKTeX 2.2\tex\latex\graphics\pdftex.def
+File: pdftex.def 2001/11/29 v0.03i graphics/color for pdftex
+\Gread@gobject=\count89
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(C:\Program Files\MiKTeX 2.2\tex\latex\ltxmisc\a4wide.sty
+Package: a4wide 1994/08/30
+
+(C:\Program Files\MiKTeX 2.2\tex\latex\ntgclass\a4.sty
+Package: a4 1999/03/03 v1.2f A4 based page layout
+))
+(C:\Program Files\MiKTeX 2.2\tex\latex\beton\beton.sty
+Package: beton 1995/03/05 v1.3
+
+Package: `beton' v1.3 <1995/03/05> (FJ)
+LaTeX Info: Redefining \oldstylenums on input line 56.
+) (ej1.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Try loading font information for OT1+ccr on input line 8.
+ (C:\Program Files\MiKTeX 2.2\tex\latex\concmath\ot1ccr.fd
+File: ot1ccr.fd 1999/03/10 v2.0b LaTeX font defs for Concrete math fonts
+)
+(C:\Program Files\MiKTeX 2.2\tex\context\base\supp-pdf.tex
+(C:\Program Files\MiKTeX 2.2\tex\context\base\supp-mis.tex
+loading : Context Support Macros / Missing
+\protectiondepth=\count90
+\scratchcounter=\count91
+\scratchdimen=\dimen106
+\scratchskip=\skip43
+\scratchmuskip=\muskip10
+\scratchbox=\box26
+\scratchread=\read1
+\scratchwrite=\write3
+\nextbox=\box27
+\nextdepth=\dimen107
+\everyline=\toks16
+\!!counta=\count92
+\!!countb=\count93
+\recursecounter=\count94
+)
+loading : Context Support Macros / PDF
+\nofMPsegments=\count95
+\nofMParguments=\count96
+)
+LaTeX Font Info:    Font shape `OT1/ccr/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/cmr/bx/n' tried instead on input line 10.
+ (ej1.toc
+LaTeX Font Info:    Font shape `OT1/ccr/bx/n' in size <10> not available
+(Font)              Font shape `OT1/cmr/bx/n' tried instead on input line 2.
+)
+\tf@toc=\write4
+ <../ej0/teclado.jpg, id=1, 963.6pt x 642.4pt>
+File: ../ej0/teclado.jpg Graphic file (type jpg)
+
+<use ../ej0/teclado.jpg> [1
+
+{sfonts.map} <../ej0/teclado.jpg>] (ej1.aux) ) <C:\Program Files\MiKTeX 2.2\fon
+ts\pk\ljfour\public\concrete\dpi600\ccr10.pk><cmbx10.pfb><cmbx12.pfb>
+Output written on ej1.pdf (1 page, 87427 bytes).

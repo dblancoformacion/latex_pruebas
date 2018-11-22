@@ -1,0 +1,85 @@
+This is TeX, Version 3.14159 (MiKTeX 2.2) (preloaded format=latex 2000.11.28)  22 NOV 2018 14:04
+**git.tex
+(git.tex
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for english, spanish, nohyphenation, loa
+ded.
+(C:\Program Files\MiKTeX 2.2\tex\latex\base\article.cls
+Document Class: article 2001/04/21 v1.4e Standard LaTeX document class
+(C:\Program Files\MiKTeX 2.2\tex\latex\base\size12.clo
+File: size12.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(C:\Program Files\MiKTeX 2.2\tex\latex\base\inputenc.sty
+Package: inputenc 2001/07/10 v0.99a Input encoding file 
+
+(C:\Program Files\MiKTeX 2.2\tex\latex\base\latin1.def
+File: latin1.def 2001/07/10 v0.99a Input encoding file 
+))
+(C:\Program Files\MiKTeX 2.2\tex\generic\Babel\babel.sty
+Package: babel 2001/03/01 v3.7h The Babel package
+
+(C:\Program Files\MiKTeX 2.2\tex\generic\Babel\spanish.ldf
+Language: spanish.ldf 2001/01/30 v4.1c Spanish support from the babel system
+
+(C:\Program Files\MiKTeX 2.2\tex\generic\Babel\babel.def
+File: babel.def 2001/03/01 v3.7h Babel common definitions
+\babel@savecnt=\count87
+\U@D=\dimen103
+)
+\es@quottoks=\toks14
+\es@quotdepth=\count88
+Package babel Info: Making . an active character on input line 464.
+Package babel Info: Making " an active character on input line 495.
+Package babel Info: Making < an active character on input line 581.
+Package babel Info: Making > an active character on input line 582.
+))
+(C:\Program Files\MiKTeX 2.2\tex\latex\ltxmisc\a4wide.sty
+Package: a4wide 1994/08/30
+
+(C:\Program Files\MiKTeX 2.2\tex\latex\ntgclass\a4.sty
+Package: a4 1999/03/03 v1.2f A4 based page layout
+)) (git.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 11.
+ (git.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 3.
+)
+\tf@toc=\write3
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 21.
+
+[1
+
+] [2] [3] (git.aux) )
+Output written on git.dvi (3 pages, 11048 bytes).

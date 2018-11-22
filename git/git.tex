@@ -1,0 +1,119 @@
+\documentclass[12pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{a4wide}
+
+\begin{document}
+
+\title{Git, inicio rápido}
+\author{David, Alpe Formación}
+
+\maketitle
+\tableofcontents
+
+\section{¿Por dónde empiezo?}
+
+\subsection{clone}
+\label{sec:clone}
+
+La forma más sencilla de empezar a trabajar con $git$ es clonando un repositorio existente con el comando $clone$\footnote{
+Si aún no has instalado el $git$ en tu equipo, visita https://git-scm.com/, instálate el software y, con el botón derecho en el escritorio o en cualquier otra carpeta en la que quieras trabajar con el repositorio a descargar, selecciona la opción Git Bash here y se abrirá el intérprete de comandos en el que podrás introducir los comandos que comentamos en este documento.
+}
+
+\begin{verbatim}
+$ git clone https://github.com/dblancoformacion/latex_pruebas
+\end{verbatim}
+
+Verás que se crea una carpeta nueva en el directorio en el que estás trabajando. Si accedes al directorio latex\_pruebas con
+
+\begin{verbatim}
+$ cd latex_pruebas
+\end{verbatim}
+
+ya tendrás control de tu copia local del repositorio.
+
+\subsection{log}
+
+El historial de cambios que se han realizado en el proyecto se pueden visualizar con:
+%$commits$\footnote{Un $commit$ es una actualización de los cambios realizados en el repositorio local}
+
+
+\begin{verbatim}
+$ git log --oneline --all
+\end{verbatim}
+
+Obtendrás algo parecido a esto:
+
+\begin{verbatim}
+89a7615 (HEAD -> master, origin/master, origin/HEAD) Git push
+7f84d5a Segunda modificación
+881a3bd Inicio
+\end{verbatim}
+
+\subsection{pull}
+
+Para actualizar nuestro repositorio local, utilizamos el comando $pull$
+
+\begin{verbatim}
+$ git pull
+\end{verbatim}
+
+\section{Viajado en el tiempo}
+
+Hasta el momento, continuamos trabajando en el repositorio de otra persona, aún no estamos registrando nuestros propios cambios.
+
+Que no los registremos, no impide que podamos realizarlos. Un repositorio descargado en nuestro equipo es perfectamente posible modificarlo.
+
+\subsection{diff}
+
+Con el comando \textit{diff} podremos visualizar los cambios realizados en los ficheros del repositorio\footnote{Si añadimos ficheros nuevos en el directorio de trabajo, \textit{diff} no los visualizará hasta que se lo indiquemos con un $add$.} desde el último $pull$
+
+\begin{verbatim}
+$ git diff
+\end{verbatim}
+
+\subsection{reset}
+
+Para descartar todos los cambios realizados y volver a la versión almacenada en el repositorio, tenemos el comando $reset$
+
+\begin{verbatim}
+$ git reset --hard
+\end{verbatim}
+
+\subsection{checkout}
+
+
+
+
+\section{Creando nuestro propio repositorio}
+
+Hasta ahora, únicamente hemos visualizado repositorios de otros autores. 
+Aunque es posible trabajar en un repositorio local para llevar un control de versiones de nuestros propios desarrollos, haremos uso de un repositorio en la nube para poder compartir nuestro trabajo.
+
+Para poder subir nuestros contenidos a internet, debemos crear una cuenta de usuario en un alojamiento de repositorios en la nube como github.com o gitlab.com
+
+Una vez creada la cuenta y generado un nuevo repositorio, podremos clonarlo en nuestro equipo y trabajar con una copia de repositorio en local con el comando $clone$ como se ha visto en el apartado \ref{sec:clone}, pág. \pageref{sec:clone}.
+
+\subsection{add}
+
+De momento, el repositorio estará vacío. Sólo contendrá la carpeta oculta .git, pero ya tendrá configurada la dirección del repositorio remoto y otros parámetros que, siguiendo estas instrucciones, no tendremos que configurar manualmente.
+
+Podemos crear o copiar cualquier contenido en la carpeta de trabajo.
+
+Para que $git$ pueda visualizar los cambios realizados en un determinado fichero, debemos pedirle que lo tenga en cuenta\footnote{$Stage$} con el comando $add$ y su nombre o, con un punto, para que realice el seguimiento de todos lo ficheros del directorio
+
+\begin{verbatim}
+$ git add .
+\end{verbatim}
+
+\subsection{commit}
+
+\subsection{push}
+
+\section{Cuando las cosas se complican}
+
+\subsection{branch}
+
+\subsection{merge}
+ 
+\end{document}
