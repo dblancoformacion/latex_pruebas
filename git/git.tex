@@ -33,6 +33,7 @@ $ cd latex_pruebas
 ya tendrás control de tu copia local del repositorio.
 
 \subsection{log}
+\label{sec:log}
 
 El historial de cambios que se han realizado en el proyecto se pueden visualizar con:
 %$commits$\footnote{Un $commit$ es una actualización de los cambios realizados en el repositorio local}
@@ -81,6 +82,12 @@ $ git reset --hard
 \end{verbatim}
 
 \subsection{checkout}
+
+A partir del historial de versiones obtenido en el apartado \ref{sec:log}, pág. \pageref{sec:log}, podremos llevar nuestro directorio de trabajo al estado en el que se encontraba en cualquiera de las versiones almacenadas.
+
+\begin{verbatim}
+$ git checkout 7f84d5a
+\end{verbatim}
 
 
 
