@@ -2,11 +2,19 @@
 \usepackage[latin1]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{a4wide}
+%\usepackage{graphicx}
+%\usepackage{pdfpages}
 
 \begin{document}
 
 \title{Git, inicio rápido}
 \author{David, Alpe Formación}
+
+%\AddToShipoutPicture{\includegraphics[width=\paperwidth,height=\paperheight]{../apuntes/fondo_m1}}
+\parindent 0mm
+\parskip 4mm
+\topmargin 12mm
+\textheight 200mm
 
 \maketitle
 \tableofcontents
@@ -30,7 +38,7 @@ Verás que se crea una carpeta nueva en el directorio en el que estás trabajando.
 $ cd latex_pruebas
 \end{verbatim}
 
-ya tendrás control de tu copia local del repositorio.
+tendrás control de tu copia local del repositorio.
 
 \subsection{log}
 \label{sec:log}
@@ -81,6 +89,8 @@ Para descartar todos los cambios realizados y volver a la versión almacenada en 
 $ git reset --hard
 \end{verbatim}
 
+ADVERTENCIA: Se perderán los cambios descartados.
+
 \subsection{checkout}
 
 A partir del historial de versiones obtenido en el apartado \ref{sec:log}, pág. \pageref{sec:log}, podremos llevar nuestro directorio de trabajo al estado en el que se encontraba en cualquiera de las versiones almacenadas.
@@ -89,7 +99,7 @@ A partir del historial de versiones obtenido en el apartado \ref{sec:log}, pág. 
 $ git checkout 7f84d5a
 \end{verbatim}
 
-
+ADVERTENCIA: Modificar el pasado de la rama principal tendrá consecuencias sobre los commits siguientes
 
 
 \section{Creando nuestro propio repositorio}
@@ -119,8 +129,26 @@ $ git add .
 
 \section{Cuando las cosas se complican}
 
+Ya somos capaces de mantener nuestro propio repositorio y compartirlo con nuestros seguidores.
+Si queremos localizar algún cambio en una versión anterior, visualizar los cambios entre dos versiones o ver cómo estaba el proyecto hace dos meses, ya sabemos hacerlo.
+
+Lo que aún no sabemos es cómo gestionar una situación de este tipo:
+
+\begin{itemize}
+	\item Tenemos una versión de nuestro libro publicada en la web y, mientras tanto, estamos escribiendo un nuevo capítulo que aún no queremos que se vea.
+	\item Detectamos una errata en la versión publicada y nos gustaría corregirla, pero tampoco queremos perder todo lo que hemos trabajado en el nuevo capítulo. Es decir, no queremos modificar la versión publicada y que la nueva versión mantenga los antiguos errores, y no queremos repetir el mismo trabajo en ambas versiones.
+	\item Cuando publiquemos la nueva versión con el nuevo capítulo, nos gustaría que todas las erratas de capítulos anteriores estuvieran corregidas.
+\end{itemize}
+
+
+
+
 \subsection{branch}
 
 \subsection{merge}
  
+\section{Trabajando en equipo}
+
+
+
 \end{document}
