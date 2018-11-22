@@ -5,4 +5,7 @@ pwd
 
 git clone https://...
 git log 
+git diff
 git pull
+
+git add .
