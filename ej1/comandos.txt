@@ -1,0 +1,8 @@
+cd latex_pruebas 
+cd ..
+ls
+pwd
+
+git clone https://...
+git log 
+git pull
